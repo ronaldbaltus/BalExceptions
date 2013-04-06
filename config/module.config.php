@@ -24,10 +24,4 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-
-    'service_manager' => array(
-        'factories' => array(
-            'BalExceptions\Options\ModuleOptions' => 'BalExceptions\Options\ModuleOptionsFactory',
-        ),
-    ),
 );
