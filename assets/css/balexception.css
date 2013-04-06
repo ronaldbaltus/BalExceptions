@@ -1,0 +1,92 @@
+section.balexception {
+
+}
+
+section.balexception .exception {
+    box-shadow:     3px 3px 10px #444;
+    padding:        5px;
+    margin-bottom:  25px;
+    border:         1px solid #ccc;
+}
+
+section.balexception .exception .exception_row {
+    margin: 0;
+    margin-bottom: 2px;
+}
+
+section.balexception .exception .exception_row .exception_label{
+    width:      70px;
+    text-align: left;
+    display:    inline-block;
+    font-style: italic;
+    color:      rgb(136, 136, 136);
+}
+
+section.balexception .exception .exception_row .exception_label:after{
+    content: ":";
+}
+
+section.balexception .exception .exception_row .exception_value{
+    display:            inline-block;
+    border:             1px solid #eaeaea;
+    background-color:   #f8f8f8;
+    border-radius:      3px;
+    padding:            0 5px;
+}
+
+
+section.balexception .classname {
+    text-shadow:    1px 1px #ccc;
+    font-weight:    bold;
+    margin:         0;
+
+    padding:        4px 2px 4px 2px;
+
+    border:             0;
+    background-color:   transparent;
+}
+
+section.balexception .message:before,
+section.balexception .message:after {
+    content: "\"";
+}
+
+section.balexception a.file:hover {
+    text-decoration: underline;
+}
+
+section.balexception a.file {
+    color: inherit;
+}
+
+section.balexception .line {
+
+}
+
+section.balexception .showcode {
+    margin-left: 70px;
+}
+
+section.balexception .code {
+    margin-top:     10px;
+    margin-bottom:  2px;
+}
+section.balexception .exception:first-child .code {
+
+}
+
+section.balexception .code .highlight {
+    border:             1px dashed red;
+    background-color:   rgba(255, 255, 0, 0.5);
+    border-radius:      3px;
+    padding:            3px;
+}
+
+/**
+ * Fix for bootstrap ul and ol
+ */
+section.balexception ul,
+section.balexception ol {
+    margin:     0;
+    padding:    0;
+}

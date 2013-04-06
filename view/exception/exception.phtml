@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * Generate a simple row
+ *
+ * @param $label
+ * @param $value
+ * @param string $classname css classname
+ */
+function generateRow($label, $value, $classname="")
+{
+    $value = "<span class=\"exception_value {$classname}\">{$value}</span>";
+
+    if (is_string($label)) {
+        $label = "<span class=\"exception_label\">{$label}</span>";
+    }
+
+    return "<div class=\"exception_row\">{$label}{$value}</div>";
+}
+
+/**
+ * This method prints the file, line and actual code.
+ * @param string file
+ * @param int line
+ * @param string errormessage
+ */
+function generateErrorMessage($file, $line, $exception=false)
+{
+    if (is_object($exception)) {
+        $message = $exception->getMessage();
+    } else if (is_string($exception)) {
+        $message = $exception;
+    } else {
+        $message = false;
+    }
+
+    $html = '<div class="exception">';
+    if (is_object($exception)) {
+        $html .=  "<div class=\"exception_row\"><h3 class=\"classname\">".get_class($exception)."</h3></div>";
+    }
+
+    if ($message) {
+        $html .= generateRow("Message", $message, "message");
+    }
+
+    $html .= generateRow("File", "<a href=\"file://{$file}\">{$file}</a>", "file");
+    $html .= generateRow("Line", $line, "line");
+
+    if (false) {
+        $html .= generateRow(null, "<a href=\"#\">show code</a>", "showcode");
+        $html .= generateCode($file, $line);
+    } else {
+        // Add the code block
+        $html .= generateCode($file, $line);
+    }
+
+    // closing tag.
+    return $html . "</div>";
+}
+
+/**
+ * Shows the actual code and highlights the line.
+ * @param string file
+ * @param int line
+ * @return string html code
+ */
+function generateCode($file, $line)
+{
+    $padding = 8; //$options->getPadding();
+
+    // open the source file
+    $source = file_get_contents($file);
+    $source = str_replace("\r\n", "\n", $source);
+    $lines = explode("\n", $source);
+
+    // Calculate line settings
+    $lastline = min($line + $padding, count($lines));
+    $firstline = max($line - $padding, 0);
+
+    $source = "";
+    // echo the line
+    for ($i = $firstline; $i < $lastline; $i++) {
+        if (($i + 1) === $line) {
+            preg_match('/^(\s+)?(.*)/', $lines[$i], $matches);
+            if (count($matches) > 2) {
+                $source .= $matches[1].'<span class="highlight">'.$matches[2].'</span>'.PHP_EOL;
+            } else {
+                $source .= $lines[$i].PHP_EOL;
+            }
+        } else {
+            $source .= $lines[$i].PHP_EOL;
+        }
+    }
+
+    return "<pre class=\"code prettyprint linenums:".($firstline+1)."\">{$source}</pre>";
+}
+
+
+// Render the exception
+echo generateErrorMessage(
+    $this->exception->getFile(),
+    $this->exception->getLine(),
+    $this->exception
+);
+
+// Render the trace
+foreach ($this->exception->getTrace() as $trace) {
+
+    if (!isset($trace["file"])) {
+        //var_export($trace);
+
+    } else {
+        echo generateErrorMessage($trace["file"], $trace["line"]);
+    }
+}

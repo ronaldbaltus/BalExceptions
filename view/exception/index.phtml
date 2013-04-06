@@ -1,0 +1,46 @@
+<?php
+echo $this->headStyle()->appendStyle(
+    file_get_contents(__DIR__ . '\..\..\assets\css\balexception.css')
+);
+?>
+
+<section class="balexception">
+<?php
+use \BalExceptions\Controller\ExceptionController;
+use \Zend\View\Renderer\PhpRenderer;
+use \Zend\View\Resolver\TemplateMapResolver;
+use \Zend\View\Model\ViewModel;
+
+if(isset($this->exception) && $this->exception instanceof Exception) {
+
+    $renderer = new PhpRenderer();
+
+    // Prepare the renderer
+    $renderer->setResolver(new TemplateMapResolver(array(
+        'balexception/exception' => __DIR__ . '/exception.phtml'
+    )));
+
+    // Set the current exception
+    $exception = $this->exception;
+
+    // Keep looping while we have a valid exception
+    while(is_object($exception)) {
+
+        $viewModel = new ViewModel(array(
+            'exception' => $exception
+        ));
+
+        $viewModel->setTemplate('balexception/exception');
+
+        // Render the model
+        echo $renderer->render($viewModel);
+
+        // get the previous exception.
+        $exception = $exception->getPrevious();
+    }
+}
+
+?>
+</section>
+<!-- pretty print for pretty code ?skin=sons-of-obsidian -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
