@@ -20,8 +20,24 @@ return array(
             'balexception/index'            => __DIR__ . '/../view/exception/index.phtml',
             'balexception/exception'        => __DIR__ . '/../view/exception/exception.phtml'
         ),
+
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+    ),
+
+    'service_manager' => array(
+        'factories' => array(
+            'BalExceptions\Options\ModuleOptions' => 'BalExceptions\Options\ModuleOptionsFactory',
+        ),
+    ),
+
+    'view_helpers' => array(
+        'factories' => array(
+            'exceptionViewer' => 'BalExceptions\View\Helper\ExceptionViewerFactory'
+        ),
+        'invokables' => array(
+           // 'exceptionViewer' => 'BalExceptions\View\Helper\ExceptionViewer',
         ),
     ),
 );

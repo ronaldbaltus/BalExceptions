@@ -6,13 +6,13 @@ echo $this->headStyle()->appendStyle(
 
 <section class="balexception">
 <?php
-use \BalExceptions\Controller\ExceptionController;
-use \Zend\View\Renderer\PhpRenderer;
-use \Zend\View\Resolver\TemplateMapResolver;
-use \Zend\View\Model\ViewModel;
 
 if(isset($this->exception) && $this->exception instanceof Exception) {
 
+
+    echo $this->exceptionViewer($this->exception);
+
+    /*
     $renderer = new PhpRenderer();
 
     // Prepare the renderer
@@ -38,6 +38,7 @@ if(isset($this->exception) && $this->exception instanceof Exception) {
         // get the previous exception.
         $exception = $exception->getPrevious();
     }
+    */
 }
 
 ?>
